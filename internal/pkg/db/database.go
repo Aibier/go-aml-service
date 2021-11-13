@@ -1,7 +1,6 @@
 package db
 
 import (
-	"fmt"
 	"github.com/Aibier/go-aml-service/internal/pkg/config"
 	"github.com/Aibier/go-aml-service/internal/pkg/models/tasks"
 	"github.com/Aibier/go-aml-service/internal/pkg/models/users"
@@ -9,6 +8,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	log "github.com/sirupsen/logrus"
 	"time"
 )
 
@@ -37,17 +37,17 @@ func SetupDB() {
 	if driver == "sqlite" { // SQLITE
 		db, err = gorm.Open("sqlite3", "./"+database+".db")
 		if err != nil {
-			fmt.Println("db err: ", err)
+			log.WithError(err).Println("db err: ", err)
 		}
 	} else if driver == "postgres" { // POSTGRES
 		db, err = gorm.Open("postgres", "host="+host+" port="+port+" user="+username+" dbname="+database+"  sslmode=disable password="+password)
 		if err != nil {
-			fmt.Println("db err: ", err)
+			log.WithError(err).Println("db err: ", err)
 		}
 	} else if driver == "mysql" { // MYSQL
 		db, err = gorm.Open("mysql", username+":"+password+"@tcp("+host+":"+port+")/"+database+"?charset=utf8&parseTime=True&loc=Local")
 		if err != nil {
-			fmt.Println("db err: ", err)
+			log.WithError(err).Println("db err: ", err)
 		}
 	}
 

@@ -6,7 +6,7 @@ import (
 	"github.com/Aibier/go-aml-service/pkg/crypto"
 	"github.com/Aibier/go-aml-service/pkg/http-err"
 	"github.com/gin-gonic/gin"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 )
 

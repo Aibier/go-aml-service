@@ -18,3 +18,6 @@ build-docker: build
 
 run-docker: build-docker
 	docker run -p 3000:3000 api-rest
+scan:
+	gosec -exclude-generated ./...
+	golangci-lint run ./...

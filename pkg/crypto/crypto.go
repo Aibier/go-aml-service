@@ -4,8 +4,8 @@ import (
 	"fmt"
 	config2 "github.com/Aibier/go-aml-service/internal/pkg/config"
 	"github.com/dgrijalva/jwt-go"
+	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
-	"log"
 	"time"
 )
 
@@ -21,6 +21,7 @@ func ComparePasswords(hashedPwd string, plainPwd []byte) bool {
 	byteHash := []byte(hashedPwd)
 	err := bcrypt.CompareHashAndPassword(byteHash, plainPwd)
 	if err != nil {
+		log.WithError(err).Logger.Printf("Something went wrong at %s", err)
 		return false
 	}
 	return true

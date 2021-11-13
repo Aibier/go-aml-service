@@ -1,7 +1,7 @@
 language: go
 
 go:
-  - 1.14.x
+  - 1.16
 
 before_install:
   - go mod download
@@ -9,3 +9,4 @@ before_install:
 script:
   - ./.travis.gofmt.sh
   - go test -v -race $(go list ./... | grep -v vendor)
+  - gosec -exclude-generated ./...

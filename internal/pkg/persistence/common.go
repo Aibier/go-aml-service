@@ -5,22 +5,22 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-// Create
+// Create ...
 func Create(value interface{}) error {
 	return db.GetDB().Create(value).Error
 }
 
-// Save
+// Save ...
 func Save(value interface{}) error {
 	return db.GetDB().Save(value).Error
 }
 
-// Updates
+// Updates ...
 func Updates(where interface{}, value interface{}) error {
 	return db.GetDB().Model(where).Updates(value).Error
 }
 
-// Delete
+// DeleteByModel ...
 func DeleteByModel(model interface{}) (count int64, err error) {
 	db := db.GetDB().Delete(model)
 	err = db.Error
@@ -31,7 +31,7 @@ func DeleteByModel(model interface{}) (count int64, err error) {
 	return
 }
 
-// Delete
+// DeleteByWhere ...
 func DeleteByWhere(model, where interface{}) (count int64, err error) {
 	db := db.GetDB().Where(where).Delete(model)
 	err = db.Error
@@ -42,7 +42,7 @@ func DeleteByWhere(model, where interface{}) (count int64, err error) {
 	return
 }
 
-// Delete
+// DeleteByID ...
 func DeleteByID(model interface{}, id uint64) (count int64, err error) {
 	db := db.GetDB().Where("id=?", id).Delete(model)
 	err = db.Error
@@ -53,7 +53,7 @@ func DeleteByID(model interface{}, id uint64) (count int64, err error) {
 	return
 }
 
-// Delete
+// DeleteByIDS ...
 func DeleteByIDS(model interface{}, ids []uint64) (count int64, err error) {
 	db := db.GetDB().Where("id in (?)", ids).Delete(model)
 	err = db.Error
@@ -64,7 +64,7 @@ func DeleteByIDS(model interface{}, ids []uint64) (count int64, err error) {
 	return
 }
 
-// First
+// FirstByID ...
 func FirstByID(out interface{}, id string) (notFound bool, err error) {
 	err = db.GetDB().First(out, id).Error
 	if err != nil {
@@ -73,7 +73,7 @@ func FirstByID(out interface{}, id string) (notFound bool, err error) {
 	return
 }
 
-// First
+// First ...
 func First(where interface{}, out interface{}, associations []string) (notFound bool, err error) {
 	db := db.GetDB()
 	for _, a := range associations {
@@ -86,7 +86,7 @@ func First(where interface{}, out interface{}, associations []string) (notFound 
 	return
 }
 
-// Find
+// Find ...
 func Find(where interface{}, out interface{}, associations []string, orders ...string) error {
 	db := db.GetDB()
 	for _, a := range associations {
@@ -101,7 +101,7 @@ func Find(where interface{}, out interface{}, associations []string, orders ...s
 	return db.Find(out).Error
 }
 
-// Scan
+// Scan ...
 func Scan(model, where interface{}, out interface{}) (notFound bool, err error) {
 	err = db.GetDB().Model(model).Where(where).Scan(out).Error
 	if err != nil {
@@ -110,7 +110,7 @@ func Scan(model, where interface{}, out interface{}) (notFound bool, err error) 
 	return
 }
 
-// ScanList
+// ScanList ...
 func ScanList(model, where interface{}, out interface{}, orders ...string) error {
 	db := db.GetDB().Model(model).Where(where)
 	if len(orders) > 0 {
