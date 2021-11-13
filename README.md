@@ -1,7 +1,14 @@
 # go-rest-api-aml-service
 Go (Golang) API REST with Gin Framework
+## 1. Project Description 
+1. Build REST APIs to support AML service with the support of external third party.
+2. Setup github actions to run testcases
+3. Support microservices
+4. JWT authentication
+5. Secret Manager
 
-## 1. Run with Docker
+
+## 2. Run with Docker
 
 1. **Build**
 
@@ -26,7 +33,7 @@ go test -v ./test/...
 
 _______
 
-## 2. Generate Docs
+## 3. Generate Docs
 
 ```shell script
 # Get swag go 1.16 or newer
