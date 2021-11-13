@@ -1,11 +1,11 @@
 package api
 
 import (
-	"fmt"
 	"github.com/Aibier/go-aml-service/internal/api/router"
 	"github.com/Aibier/go-aml-service/internal/pkg/config"
 	"github.com/Aibier/go-aml-service/internal/pkg/db"
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 )
 
 func setConfiguration(configPath string) {
@@ -21,7 +21,9 @@ func Run(configPath string) {
 	setConfiguration(configPath)
 	conf := config.GetConfig()
 	web := router.Setup()
-	fmt.Println("Go API REST Running on port " + conf.Server.Port)
-	fmt.Println("==================>")
-	_ = web.Run(":" + conf.Server.Port)
+	err := web.Run(":" + conf.Server.Port)
+	if err != nil {
+		log.WithError(err).Logger.Printf("Something went wrong at %s", conf.Server.Port)
+	}
+	log.Printf("go aml server is running at %s", conf.Server.Port)
 }
