@@ -2,20 +2,25 @@ package router
 
 import (
 	"fmt"
+	"io"
+	"os"
+
 	"github.com/Aibier/go-aml-service/internal/api/controllers"
 	"github.com/Aibier/go-aml-service/internal/api/middlewares"
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 	swaggerFiles "github.com/swaggo/files"
-	"github.com/swaggo/gin-swagger"
-	"io"
-	"os"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func Setup() *gin.Engine {
 	app := gin.New()
 
 	// Logging to a file.
-	f, _ := os.Create("log/api.log")
+	f, err := os.Create("log/api.log")
+	if err !=nil {
+		log.WithError(err).Printf("failed to create log file %s", err)
+	}
 	gin.DisableConsoleColor()
 	gin.DefaultWriter = io.MultiWriter(f)
 
@@ -41,8 +46,6 @@ func Setup() *gin.Engine {
 	// ================== Login Routes
 	app.POST("/api/login", controllers.Login)
 	app.POST("/api/login/add", controllers.CreateUser)
-	// ================== Docs Routes
-	app.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	// ================== User Routes
 	app.GET("/api/users", controllers.GetUsers)
 	app.GET("/api/users/:id", controllers.GetUserById)
@@ -55,6 +58,9 @@ func Setup() *gin.Engine {
 	app.POST("/api/tasks", controllers.CreateTask)
 	app.PUT("/api/tasks/:id", controllers.UpdateTask)
 	app.DELETE("/api/tasks/:id", controllers.DeleteTask)
+
+	// ================== Docs Routes
+	app.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return app
 }

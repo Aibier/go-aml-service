@@ -1,14 +1,15 @@
 package db
 
 import (
+	_ "database/sql"
 	"github.com/Aibier/go-aml-service/internal/pkg/config"
 	"github.com/Aibier/go-aml-service/internal/pkg/models/tasks"
 	"github.com/Aibier/go-aml-service/internal/pkg/models/users"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	log "github.com/sirupsen/logrus"
+	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 	"time"
 )
 
@@ -35,27 +36,34 @@ func SetupDB() {
 	port := configuration.Database.Port
 
 	if driver == "sqlite" { // SQLITE
-		db, err = gorm.Open("sqlite3", "./"+database+".db")
+		db, err = gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
 		if err != nil {
 			log.WithError(err).Println("db err: ", err)
 		}
 	} else if driver == "postgres" { // POSTGRES
-		db, err = gorm.Open("postgres", "host="+host+" port="+port+" user="+username+" dbname="+database+"  sslmode=disable password="+password)
+		postgresInfo := "host="+host+" port="+port+" user="+username+" dbname="+database+"  sslmode=disable password="+password + "TimeZone=Asia/Shanghai"
+		db, err = gorm.Open(postgres.New(postgres.Config{
+			DSN: postgresInfo,
+			PreferSimpleProtocol: true, // disables implicit prepared statement usage
+		}), &gorm.Config{})
 		if err != nil {
 			log.WithError(err).Println("db err: ", err)
 		}
 	} else if driver == "mysql" { // MYSQL
-		db, err = gorm.Open("mysql", username+":"+password+"@tcp("+host+":"+port+")/"+database+"?charset=utf8&parseTime=True&loc=Local")
+		dsn := username+":"+password+"@tcp("+host+":"+port+")/"+database+"?charset=utf8&parseTime=True&loc=Local"
+		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		if err != nil {
 			log.WithError(err).Println("db err: ", err)
 		}
 	}
-
 	// Change this to true if you want to see SQL queries
-	db.LogMode(false)
-	db.DB().SetMaxIdleConns(configuration.Database.MaxIdleConns)
-	db.DB().SetMaxOpenConns(configuration.Database.MaxOpenConns)
-	db.DB().SetConnMaxLifetime(time.Duration(configuration.Database.MaxLifetime) * time.Second)
+	myDB, err := db.DB()
+	if err != nil {
+		log.WithError(err).Println("db err: ", err)
+	}
+	myDB.SetMaxIdleConns(configuration.Database.MaxIdleConns)
+	myDB.SetMaxOpenConns(configuration.Database.MaxOpenConns)
+	myDB.SetConnMaxLifetime(time.Duration(configuration.Database.MaxLifetime) * time.Second)
 	DB = db
 	migration()
 }

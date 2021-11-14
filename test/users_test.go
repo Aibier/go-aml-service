@@ -20,9 +20,9 @@ func Setup() {
 func TestAddUser(t *testing.T) {
 	Setup()
 	user := models.User{
-		Firstname: "Antonio",
-		Lastname:  "Paya",
-		Username:  "antonio",
+		Firstname: "Tony",
+		Lastname:  "Aizize",
+		Username:  "tonyaizize",
 		Hash:      "hash",
 		Role:      models.UserRole{RoleName: "user"},
 	}
