@@ -1,0 +1,33 @@
+log: Dev
+env: production
+database:
+  host: localhost
+  port: 5432
+  ssl_enabled: false
+  driver: postgres
+  dbname: amltransactions
+  username: amluser
+  password: amlpassword
+  max_lifetime: 7200
+  max_open_conns: 150
+  max_idle_conns: 50
+
+server:
+  port: 3000
+  secret: "jdnfksdmfksda"
+  graceful_shutdown: 5 #seconds
+  auth_token: server_token
+  ip_check:
+    enable_ip_check: true
+    enable_ip_log: true
+    whitelisted_ips:
+    #      - "1.1.0.0/16"
+    #      - "2.2.2.0/24"
+    internal_ips:
+    # - "127.0.0.1/8"
+    mode: release
+
+secret_manager_encryption_key: MTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTE=
+
+metrics:
+  port: 3000
