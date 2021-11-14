@@ -14,7 +14,6 @@ type User struct {
 	Lastname  string   `gorm:"column:lastname;not null;" json:"lastname" form:"lastname"`
 	Hash      string   `gorm:"column:hash;not null;" json:"hash"`
 	Role      UserRole `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	UUID      uuid.UUID `gorm:"column:uuid;not null;" json:"uuid" form:"uuid"`
 }
 
 func (m *User) BeforeCreate(*gorm.DB) error {

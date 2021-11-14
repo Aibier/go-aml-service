@@ -41,11 +41,10 @@ func Setup() *gin.Engine {
 	app.Use(gin.Recovery())
 	app.Use(middlewares.CORS())
 	app.NoRoute(middlewares.NoRouteHandler())
-
 	// Routes
 	// ================== Login Routes
 	app.POST("/api/login", controllers.Login)
-	app.POST("/api/login/add", controllers.CreateUser)
+	app.POST("/api/register", controllers.CreateUser)
 	// ================== User Routes
 	app.GET("/api/users", controllers.GetUsers)
 	app.GET("/api/users/:id", controllers.GetUserById)

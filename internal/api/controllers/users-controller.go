@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"errors"
+	"fmt"
 	models "github.com/Aibier/go-aml-service/internal/pkg/models/users"
 	"github.com/Aibier/go-aml-service/internal/pkg/persistence"
 	"github.com/Aibier/go-aml-service/pkg/crypto"
@@ -9,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"net/http"
+	"strings"
 )
 
 type UserInput struct {
@@ -63,7 +65,20 @@ func GetUsers(c *gin.Context) {
 func CreateUser(c *gin.Context) {
 	s := persistence.GetUserRepository()
 	var userInput UserInput
-	_ = c.BindJSON(&userInput)
+	err := c.BindJSON(&userInput)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+		return
+	}
+	if strings.Trim(userInput.Username, " ") == "" || strings.Trim(userInput.Password, " ") == "" || strings.Trim(userInput.Lastname, " ") == ""{
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("Parameters can't be empty")})
+		return
+	}
+	existingUser, err := s.GetByUsername(userInput.Username)
+	if err == nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("username %s is already taken, pls login", existingUser.Username)})
+		return
+	}
 	user := models.User{
 		Username:  userInput.Username,
 		Firstname: userInput.Firstname,
@@ -83,7 +98,11 @@ func UpdateUser(c *gin.Context) {
 	s := persistence.GetUserRepository()
 	id := c.Params.ByName("id")
 	var userInput UserInput
-	_ = c.BindJSON(&userInput)
+	err := c.BindJSON(&userInput)
+	if err != nil {
+		http_err.NewError(c, http.StatusNotFound, errors.New("user not found"))
+		log.Println(err)
+	}
 	if user, err := s.Get(id); err != nil {
 		http_err.NewError(c, http.StatusNotFound, errors.New("user not found"))
 		log.Println(err)

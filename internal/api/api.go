@@ -16,7 +16,7 @@ func setConfiguration(configPath string) {
 
 func Run(configPath string) {
 	if configPath == "" {
-		configPath = "data/config.yml"
+		configPath = "config/config.yml"
 	}
 	setConfiguration(configPath)
 	conf := config.GetConfig()
