@@ -4,6 +4,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"time"
 )
 
 var Config *Configuration
@@ -26,9 +27,10 @@ type DatabaseConfiguration struct {
 }
 
 type ServerConfiguration struct {
-	Port   string
-	Secret string
-	Mode   string
+	Port              string
+	Secret            string
+	Mode              string
+	GracefulShutdown time.Duration
 }
 
 // Setup DB initialize configuration

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"time"
 
 	"github.com/Aibier/go-aml-service/internal/api/controllers"
 	"github.com/Aibier/go-aml-service/internal/api/middlewares"
@@ -17,7 +18,7 @@ func Setup() *gin.Engine {
 	app := gin.New()
 
 	// Logging to a file.
-	f, err := os.Create("log/api.log")
+	f, err := os.Create("log/"+time.Now().String())
 	if err !=nil {
 		log.WithError(err).Printf("failed to create log file %s", err)
 	}
@@ -46,17 +47,18 @@ func Setup() *gin.Engine {
 	app.POST("/api/login", controllers.Login)
 	app.POST("/api/register", controllers.CreateUser)
 	// ================== User Routes
-	app.GET("/api/users", controllers.GetUsers)
-	app.GET("/api/users/:id", controllers.GetUserById)
-	app.POST("/api/users", controllers.CreateUser)
-	app.PUT("/api/users/:id", controllers.UpdateUser)
-	app.DELETE("/api/users/:id", controllers.DeleteUser)
+
+	app.GET("/api/users", middlewares.AuthRequired(), controllers.GetUsers)
+	app.GET("/api/users/:id", middlewares.AuthRequired(), controllers.GetUserById)
+	app.POST("/api/users", middlewares.AuthRequired(), controllers.CreateUser)
+	app.PUT("/api/users/:id", middlewares.AuthRequired(),controllers.UpdateUser)
+	app.DELETE("/api/users/:id", middlewares.AuthRequired(), controllers.DeleteUser)
 	// ================== Tasks Routes
-	app.GET("/api/tasks/:id", controllers.GetTaskById)
-	app.GET("/api/tasks", controllers.GetTasks)
-	app.POST("/api/tasks", controllers.CreateTask)
-	app.PUT("/api/tasks/:id", controllers.UpdateTask)
-	app.DELETE("/api/tasks/:id", controllers.DeleteTask)
+	app.GET("/api/tasks/:id", middlewares.AuthRequired(), controllers.GetTaskById)
+	app.GET("/api/tasks", middlewares.AuthRequired(),controllers.GetTasks)
+	app.POST("/api/tasks", middlewares.AuthRequired(), controllers.CreateTask)
+	app.PUT("/api/tasks/:id", middlewares.AuthRequired(),controllers.UpdateTask)
+	app.DELETE("/api/tasks/:id", middlewares.AuthRequired(),controllers.DeleteTask)
 
 	// ================== Docs Routes
 	app.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
