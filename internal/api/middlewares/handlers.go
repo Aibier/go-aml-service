@@ -5,7 +5,7 @@ import "github.com/gin-gonic/gin"
 // NoMethodHandler ...
 func NoMethodHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		c.JSON(405, gin.H{"message": "Metodo no permitido"})
+		c.JSON(405, gin.H{"message": "Method not permitted"})
 	}
 }
 

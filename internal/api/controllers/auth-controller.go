@@ -17,7 +17,11 @@ type LoginInput struct {
 
 func Login(c *gin.Context) {
 	var loginInput LoginInput
-	_ = c.BindJSON(&loginInput)
+	err := c.BindJSON(&loginInput)
+	if err != nil {
+		http_err.NewError(c, http.StatusBadRequest, errors.New("user not found"))
+		log.Println(err)
+	}
 	s := persistence.GetUserRepository()
 	if user, err := s.GetByUsername(loginInput.Username); err != nil {
 		http_err.NewError(c, http.StatusNotFound, errors.New("user not found"))
@@ -28,6 +32,29 @@ func Login(c *gin.Context) {
 			return
 		}
 		token, _ := crypto.CreateToken(user.Username)
-		c.JSON(http.StatusOK, token)
+		tokenResponse := &LoginResponse{
+			Token: token,
+			Username: user.Username,
+		}
+		c.JSON(http.StatusOK, tokenResponse)
 	}
 }
+
+//LoginResponse credential
+type LoginResponse struct {
+	Username    string `form:"username"`
+	Token string `form:"token"`
+}
+
+//LoginCredentials credential
+type LoginCredentials struct {
+	Email    string `form:"email"`
+	Password string `form:"password"`
+}
+
+//LoginController contorler interface
+type LoginController interface {
+	Login(ctx *gin.Context) string
+}
+
+

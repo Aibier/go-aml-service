@@ -1,8 +1,8 @@
 database:
-  driver: "sqlite"
-  dbname: "data/database"
-  username: "user"
-  password: "password"
+  driver: "postgres"
+  dbname: "amltransactions"
+  username: "amluser"
+  password: "amlpassword"
   host: "localhost"
   port: "5432"
   max_lifetime: 7200

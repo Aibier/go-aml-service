@@ -12,8 +12,8 @@ func AuthRequired() gin.HandlerFunc {
 		if !crypto.ValidateToken(authorizationHeader) {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 			return
-		} else {
-			c.Next()
 		}
+		c.Next()
 	}
 }
+

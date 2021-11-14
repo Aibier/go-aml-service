@@ -2,6 +2,8 @@ package users
 
 import (
 	"github.com/Aibier/go-aml-service/internal/pkg/models"
+	"github.com/google/uuid"
+	"gorm.io/gorm"
 	"time"
 )
 
@@ -14,13 +16,14 @@ type User struct {
 	Role      UserRole `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
-func (m *User) BeforeCreate() error {
+func (m *User) BeforeCreate(*gorm.DB) error {
+	m.UUID = uuid.New()
 	m.CreatedAt = time.Now()
 	m.UpdatedAt = time.Now()
 	return nil
 }
 
-func (m *User) BeforeUpdate() error {
+func (m *User) BeforeUpdate(*gorm.DB) error {
 	m.UpdatedAt = time.Now()
 	return nil
 }
