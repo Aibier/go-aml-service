@@ -71,7 +71,7 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 	if strings.Trim(userInput.Username, " ") == "" || strings.Trim(userInput.Password, " ") == "" || strings.Trim(userInput.Lastname, " ") == ""{
-		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("Parameters can't be empty")})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Parameters can't be empty"})
 		return
 	}
 	existingUser, err := s.GetByUsername(userInput.Username)

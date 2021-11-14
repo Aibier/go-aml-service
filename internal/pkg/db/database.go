@@ -69,10 +69,19 @@ func SetupDB() {
 }
 
 // Auto migrate project models
-func migration() {
-	DB.AutoMigrate(&users.User{})
-	DB.AutoMigrate(&users.UserRole{})
-	DB.AutoMigrate(&tasks.Task{})
+func migration(){
+	err := DB.AutoMigrate(&users.User{})
+	if err != nil {
+		log.WithError(err).Printf("failed migrate users")
+	}
+	err = DB.AutoMigrate(&users.UserRole{})
+	if err != nil {
+		log.WithError(err).Printf("failed migrate user roles")
+	}
+	err = DB.AutoMigrate(&tasks.Task{})
+	if err != nil {
+		log.WithError(err).Printf("failed migrate tasks")
+	}
 }
 
 func GetDB() *gorm.DB {
