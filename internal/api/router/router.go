@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"time"
 
 	"github.com/Aibier/go-aml-service/internal/api/controllers"
 	"github.com/Aibier/go-aml-service/internal/api/middlewares"
@@ -17,7 +18,7 @@ func Setup() *gin.Engine {
 	app := gin.New()
 
 	// Logging to a file.
-	f, err := os.Create("log/api.log")
+	f, err := os.Create("log/"+time.Now().String())
 	if err !=nil {
 		log.WithError(err).Printf("failed to create log file %s", err)
 	}

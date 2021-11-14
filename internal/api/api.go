@@ -1,7 +1,6 @@
 package api
 
 import (
-	"context"
 	"github.com/Aibier/go-aml-service/internal/api/router"
 	"github.com/Aibier/go-aml-service/internal/pkg/config"
 	"github.com/Aibier/go-aml-service/internal/pkg/db"
@@ -9,8 +8,6 @@ import (
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"os"
-	"os/signal"
-	"syscall"
 	"time"
 )
 
@@ -41,27 +38,28 @@ func Run(configPath string) {
 		}
 	}()
 
-	if conf.Server.Mode != "development" {
-		go func() {
-			log.Infof("[PID=%d] starting metrics server on server on %s ...", pid, conf.Server.Port)
-			if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-				log.WithError(err).Fatalf("starting metrics server error")
-			}
-		}()
-	}
-
-	term := make(chan os.Signal)
-	signal.Notify(term, os.Interrupt, syscall.SIGTERM)
-
-	<-term
-	log.Info("received SIGINT/SIGTERM and shutting down gracefully ...")
-	log.Infof("server will shutdown in or before %v", (conf.Server.GracefulShutdown)*time.Second)
-	ctx, cancel := context.WithTimeout(context.Background(), (conf.Server.GracefulShutdown)*time.Second)
-	defer cancel()
-	if err := srv.Shutdown(ctx); err != nil {
-		log.WithError( err).Error("error shutting down API")
-	}
-	log.Info("exiting")
+	//if conf.Server.Mode != "development" {
+	//	go func() {
+	//		log.Infof("[PID=%d] starting metrics server on server on %s ...", pid, conf.Server.Port)
+	//		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+	//			log.WithError(err).Fatalf("starting metrics server error")
+	//		}
+	//	}()
+	//}
+	//
+	//term := make(chan os.Signal)
+	///* #nosec */
+	//signal.Notify(term, os.Interrupt, syscall.SIGTERM)
+	//
+	//<-term
+	//log.Info("received SIGINT/SIGTERM and shutting down gracefully ...")
+	//log.Infof("server will shutdown in or before %v", (conf.Server.GracefulShutdown)*time.Second)
+	//ctx, cancel := context.WithTimeout(context.Background(), (conf.Server.GracefulShutdown)*time.Second)
+	//defer cancel()
+	//if err := srv.Shutdown(ctx); err != nil {
+	//	log.WithError( err).Error("error shutting down API")
+	//}
+	//log.Info("exiting")
 }
 
 // NewServer creates a new http.Server object
