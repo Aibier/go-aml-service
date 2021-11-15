@@ -1,4 +1,4 @@
-log: Dev
+log: Prod
 env: production
 database:
   host: localhost
@@ -16,7 +16,6 @@ server:
   port: 3000
   secret: "jdnfksdmfksda"
   graceful_shutdown: 5 #seconds
-  auth_token: server_token
   ip_check:
     enable_ip_check: true
     enable_ip_log: true
@@ -27,7 +26,7 @@ server:
     # - "127.0.0.1/8"
     mode: release
 
-secret_manager_encryption_key: MTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTE=
+encryption_key: MY_SECRET_ENCRYPTION_KEY
 
 metrics:
   port: 3000
