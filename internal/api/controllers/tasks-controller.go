@@ -6,7 +6,7 @@ import (
 
 	models "github.com/Aibier/go-aml-service/internal/pkg/models/tasks"
 	"github.com/Aibier/go-aml-service/internal/pkg/persistence"
-	"github.com/Aibier/go-aml-service/pkg/http-err"
+	httperror "github.com/Aibier/go-aml-service/pkg/http-err"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )

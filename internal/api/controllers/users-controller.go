@@ -9,7 +9,7 @@ import (
 	models "github.com/Aibier/go-aml-service/internal/pkg/models/users"
 	"github.com/Aibier/go-aml-service/internal/pkg/persistence"
 	"github.com/Aibier/go-aml-service/pkg/crypto"
-	"github.com/Aibier/go-aml-service/pkg/http-err"
+	httperror "github.com/Aibier/go-aml-service/pkg/http-err"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )
