@@ -1,7 +1,6 @@
 package config
 
 import (
-
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"time"
@@ -27,9 +26,9 @@ type DatabaseConfiguration struct {
 }
 
 type ServerConfiguration struct {
-	Port              string
-	Secret            string
-	Mode              string
+	Port             string
+	Secret           string
+	Mode             string
 	GracefulShutdown time.Duration
 }
 

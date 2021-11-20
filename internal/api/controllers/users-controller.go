@@ -70,7 +70,7 @@ func CreateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
 		return
 	}
-	if strings.Trim(userInput.Username, " ") == "" || strings.Trim(userInput.Password, " ") == "" || strings.Trim(userInput.Lastname, " ") == ""{
+	if strings.Trim(userInput.Username, " ") == "" || strings.Trim(userInput.Password, " ") == "" || strings.Trim(userInput.Lastname, " ") == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Parameters can't be empty"})
 		return
 	}

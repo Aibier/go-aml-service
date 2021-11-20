@@ -6,8 +6,8 @@ import (
 	"strconv"
 )
 
-
 type UserRepository struct{}
+
 var userRepository *UserRepository
 
 func GetUserRepository() *UserRepository {

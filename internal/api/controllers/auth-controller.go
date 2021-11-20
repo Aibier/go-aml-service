@@ -33,7 +33,7 @@ func Login(c *gin.Context) {
 		}
 		token, _ := crypto.CreateToken(user.Username)
 		tokenResponse := &LoginResponse{
-			Token: token,
+			Token:    token,
 			Username: user.Username,
 		}
 		c.JSON(http.StatusOK, tokenResponse)
@@ -42,8 +42,8 @@ func Login(c *gin.Context) {
 
 //LoginResponse credential
 type LoginResponse struct {
-	Username    string `form:"username"`
-	Token string `form:"token"`
+	Username string `form:"username"`
+	Token    string `form:"token"`
 }
 
 //LoginCredentials credential
@@ -56,5 +56,3 @@ type LoginCredentials struct {
 type LoginController interface {
 	Login(ctx *gin.Context) string
 }
-
-

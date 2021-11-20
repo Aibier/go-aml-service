@@ -41,16 +41,16 @@ func SetupDB() {
 			log.WithError(err).Println("db err: ", err)
 		}
 	} else if driver == "postgres" { // POSTGRES
-		postgresInfo := "host="+host+" port="+port+" user="+username+" dbname="+database+"  sslmode=disable password="+password + "TimeZone=Asia/Shanghai"
+		postgresInfo := "host=" + host + " port=" + port + " user=" + username + " dbname=" + database + "  sslmode=disable password=" + password + "TimeZone=Asia/Shanghai"
 		db, err = gorm.Open(postgres.New(postgres.Config{
-			DSN: postgresInfo,
+			DSN:                  postgresInfo,
 			PreferSimpleProtocol: true, // disables implicit prepared statement usage
 		}), &gorm.Config{})
 		if err != nil {
 			log.WithError(err).Println("db err: ", err)
 		}
 	} else if driver == "mysql" { // MYSQL
-		dsn := username+":"+password+"@tcp("+host+":"+port+")/"+database+"?charset=utf8&parseTime=True&loc=Local"
+		dsn := username + ":" + password + "@tcp(" + host + ":" + port + ")/" + database + "?charset=utf8&parseTime=True&loc=Local"
 		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		if err != nil {
 			log.WithError(err).Println("db err: ", err)
@@ -69,7 +69,7 @@ func SetupDB() {
 }
 
 // Auto migrate project models
-func migration(){
+func migration() {
 	err := DB.AutoMigrate(&users.User{})
 	if err != nil {
 		log.WithError(err).Printf("failed migrate users")
