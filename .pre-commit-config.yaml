@@ -4,7 +4,6 @@ repos:
     rev: master
     hooks:
       - id: go-fmt
-      - id: go-vet
       - id: go-lint
       - id: go-imports
         args: [-over=15]
