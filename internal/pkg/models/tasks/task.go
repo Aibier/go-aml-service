@@ -22,6 +22,7 @@ func (m *Task) BeforeCreate(*gorm.DB) error {
 	m.UpdatedAt = time.Now()
 	return nil
 }
+
 // BeforeUpdate ...
 func (m *Task) BeforeUpdate(*gorm.DB) error {
 	m.UpdatedAt = time.Now()
