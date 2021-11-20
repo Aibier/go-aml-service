@@ -9,17 +9,19 @@ import (
 	"github.com/Aibier/go-aml-service/internal/api/controllers"
 	"github.com/Aibier/go-aml-service/internal/api/middlewares"
 	"github.com/gin-gonic/gin"
+
 	log "github.com/sirupsen/logrus"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// Setup ..
 func Setup() *gin.Engine {
 	app := gin.New()
 
 	// Logging to a file.
-	f, err := os.Create("log/"+time.Now().String())
-	if err !=nil {
+	f, err := os.Create("log/" + time.Now().String())
+	if err != nil {
 		log.WithError(err).Printf("failed to create log file %s", err)
 	}
 	gin.DisableConsoleColor()
@@ -49,16 +51,16 @@ func Setup() *gin.Engine {
 	// ================== User Routes
 
 	app.GET("/api/users", middlewares.AuthRequired(), controllers.GetUsers)
-	app.GET("/api/users/:id", middlewares.AuthRequired(), controllers.GetUserById)
+	app.GET("/api/users/:id", middlewares.AuthRequired(), controllers.GetUserByID)
 	app.POST("/api/users", middlewares.AuthRequired(), controllers.CreateUser)
-	app.PUT("/api/users/:id", middlewares.AuthRequired(),controllers.UpdateUser)
+	app.PUT("/api/users/:id", middlewares.AuthRequired(), controllers.UpdateUser)
 	app.DELETE("/api/users/:id", middlewares.AuthRequired(), controllers.DeleteUser)
 	// ================== Tasks Routes
-	app.GET("/api/tasks/:id", middlewares.AuthRequired(), controllers.GetTaskById)
-	app.GET("/api/tasks", middlewares.AuthRequired(),controllers.GetTasks)
+	app.GET("/api/tasks/:id", middlewares.AuthRequired(), controllers.GetTaskByID)
+	app.GET("/api/tasks", middlewares.AuthRequired(), controllers.GetTasks)
 	app.POST("/api/tasks", middlewares.AuthRequired(), controllers.CreateTask)
-	app.PUT("/api/tasks/:id", middlewares.AuthRequired(),controllers.UpdateTask)
-	app.DELETE("/api/tasks/:id", middlewares.AuthRequired(),controllers.DeleteTask)
+	app.PUT("/api/tasks/:id", middlewares.AuthRequired(), controllers.UpdateTask)
+	app.DELETE("/api/tasks/:id", middlewares.AuthRequired(), controllers.DeleteTask)
 
 	// ================== Docs Routes
 	app.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

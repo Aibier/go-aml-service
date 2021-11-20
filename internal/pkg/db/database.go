@@ -1,23 +1,26 @@
 package db
 
 import (
-	_ "database/sql"
-	"github.com/Aibier/go-aml-service/internal/pkg/config"
-	"github.com/Aibier/go-aml-service/internal/pkg/models/tasks"
-	"github.com/Aibier/go-aml-service/internal/pkg/models/users"
+	"time"
+
 	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"time"
+
+	"github.com/Aibier/go-aml-service/internal/pkg/config"
+	"github.com/Aibier/go-aml-service/internal/pkg/models/tasks"
+	"github.com/Aibier/go-aml-service/internal/pkg/models/users"
 )
 
+// DB ...
 var (
 	DB  *gorm.DB
 	err error
 )
 
+// Database ..
 type Database struct {
 	*gorm.DB
 }
@@ -41,16 +44,16 @@ func SetupDB() {
 			log.WithError(err).Println("db err: ", err)
 		}
 	} else if driver == "postgres" { // POSTGRES
-		postgresInfo := "host="+host+" port="+port+" user="+username+" dbname="+database+"  sslmode=disable password="+password + "TimeZone=Asia/Shanghai"
+		postgresInfo := "host=" + host + " port=" + port + " user=" + username + " dbname=" + database + "  sslmode=disable password=" + password + "TimeZone=Asia/Shanghai"
 		db, err = gorm.Open(postgres.New(postgres.Config{
-			DSN: postgresInfo,
+			DSN:                  postgresInfo,
 			PreferSimpleProtocol: true, // disables implicit prepared statement usage
 		}), &gorm.Config{})
 		if err != nil {
 			log.WithError(err).Println("db err: ", err)
 		}
 	} else if driver == "mysql" { // MYSQL
-		dsn := username+":"+password+"@tcp("+host+":"+port+")/"+database+"?charset=utf8&parseTime=True&loc=Local"
+		dsn := username + ":" + password + "@tcp(" + host + ":" + port + ")/" + database + "?charset=utf8&parseTime=True&loc=Local"
 		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 		if err != nil {
 			log.WithError(err).Println("db err: ", err)
@@ -69,7 +72,7 @@ func SetupDB() {
 }
 
 // Auto migrate project models
-func migration(){
+func migration() {
 	err := DB.AutoMigrate(&users.User{})
 	if err != nil {
 		log.WithError(err).Printf("failed migrate users")
@@ -84,6 +87,7 @@ func migration(){
 	}
 }
 
+// GetDB ...
 func GetDB() *gorm.DB {
 	return DB
 }

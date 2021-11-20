@@ -1,0 +1,11 @@
+fail_fast: true
+repos:
+  - repo: git://github.com/dnephin/pre-commit-golang
+    rev: master
+    hooks:
+      - id: go-fmt
+      - id: go-lint
+      - id: go-imports
+      - id: validate-toml
+      - id: no-go-testing
+      - id: go-mod-tidy

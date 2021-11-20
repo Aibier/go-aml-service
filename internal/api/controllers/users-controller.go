@@ -3,16 +3,18 @@ package controllers
 import (
 	"errors"
 	"fmt"
+	"net/http"
+	"strings"
+
 	models "github.com/Aibier/go-aml-service/internal/pkg/models/users"
 	"github.com/Aibier/go-aml-service/internal/pkg/persistence"
 	"github.com/Aibier/go-aml-service/pkg/crypto"
-	"github.com/Aibier/go-aml-service/pkg/http-err"
+	httperror "github.com/Aibier/go-aml-service/pkg/http-err"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
-	"net/http"
-	"strings"
 )
 
+// UserInput ...
 type UserInput struct {
 	Username  string `json:"username" binding:"required"`
 	Lastname  string `json:"lastname"`
@@ -21,7 +23,7 @@ type UserInput struct {
 	Role      string `json:"role"`
 }
 
-// GetUserById godoc
+// GetUserByID godoc
 // @Summary Retrieves user based on given ID
 // @Description get User by ID
 // @Produce json
@@ -29,11 +31,11 @@ type UserInput struct {
 // @Success 200 {object} users.User
 // @Router /api/users/{id} [get]
 // @Security Authorization Token
-func GetUserById(c *gin.Context) {
+func GetUserByID(c *gin.Context) {
 	s := persistence.GetUserRepository()
 	id := c.Param("id")
 	if user, err := s.Get(id); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("user not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("user not found"))
 		log.Println(err)
 	} else {
 		c.JSON(http.StatusOK, user)
@@ -55,13 +57,14 @@ func GetUsers(c *gin.Context) {
 	var q models.User
 	_ = c.Bind(&q)
 	if users, err := s.Query(&q); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("users not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("users not found"))
 		log.Println(err)
 	} else {
 		c.JSON(http.StatusOK, users)
 	}
 }
 
+// CreateUser ...
 func CreateUser(c *gin.Context) {
 	s := persistence.GetUserRepository()
 	var userInput UserInput
@@ -70,7 +73,7 @@ func CreateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
 		return
 	}
-	if strings.Trim(userInput.Username, " ") == "" || strings.Trim(userInput.Password, " ") == "" || strings.Trim(userInput.Lastname, " ") == ""{
+	if strings.Trim(userInput.Username, " ") == "" || strings.Trim(userInput.Password, " ") == "" || strings.Trim(userInput.Lastname, " ") == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Parameters can't be empty"})
 		return
 	}
@@ -87,24 +90,25 @@ func CreateUser(c *gin.Context) {
 		Role:      models.UserRole{RoleName: userInput.Role},
 	}
 	if err := s.Add(&user); err != nil {
-		http_err.NewError(c, http.StatusBadRequest, err)
+		httperror.NewError(c, http.StatusBadRequest, err)
 		log.Println(err)
 	} else {
 		c.JSON(http.StatusCreated, user)
 	}
 }
 
+// UpdateUser ...
 func UpdateUser(c *gin.Context) {
 	s := persistence.GetUserRepository()
 	id := c.Params.ByName("id")
 	var userInput UserInput
 	err := c.BindJSON(&userInput)
 	if err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("user not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("user not found"))
 		log.Println(err)
 	}
 	if user, err := s.Get(id); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("user not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("user not found"))
 		log.Println(err)
 	} else {
 		user.Username = userInput.Username
@@ -113,7 +117,7 @@ func UpdateUser(c *gin.Context) {
 		user.Hash = crypto.HashAndSalt([]byte(userInput.Password))
 		user.Role = models.UserRole{RoleName: userInput.Role}
 		if err := s.Update(user); err != nil {
-			http_err.NewError(c, http.StatusNotFound, err)
+			httperror.NewError(c, http.StatusNotFound, err)
 			log.Println(err)
 		} else {
 			c.JSON(http.StatusOK, user)
@@ -121,17 +125,18 @@ func UpdateUser(c *gin.Context) {
 	}
 }
 
+// DeleteUser ...
 func DeleteUser(c *gin.Context) {
 	s := persistence.GetUserRepository()
 	id := c.Params.ByName("id")
 	var userInput UserInput
 	_ = c.BindJSON(&userInput)
 	if user, err := s.Get(id); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("user not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("user not found"))
 		log.Println(err)
 	} else {
 		if err := s.Delete(user); err != nil {
-			http_err.NewError(c, http.StatusNotFound, err)
+			httperror.NewError(c, http.StatusNotFound, err)
 			log.Println(err)
 		} else {
 			c.JSON(http.StatusNoContent, "")

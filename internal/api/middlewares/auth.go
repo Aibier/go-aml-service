@@ -1,11 +1,13 @@
 package middlewares
 
 import (
+	"net/http"
+
 	"github.com/Aibier/go-aml-service/pkg/crypto"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
+// AuthRequired ...
 func AuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authorizationHeader := c.GetHeader("authorization")
@@ -16,4 +18,3 @@ func AuthRequired() gin.HandlerFunc {
 		c.Next()
 	}
 }
-

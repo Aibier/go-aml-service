@@ -2,15 +2,16 @@ package controllers
 
 import (
 	"errors"
+	"net/http"
+
 	models "github.com/Aibier/go-aml-service/internal/pkg/models/tasks"
 	"github.com/Aibier/go-aml-service/internal/pkg/persistence"
-	"github.com/Aibier/go-aml-service/pkg/http-err"
+	httperror "github.com/Aibier/go-aml-service/pkg/http-err"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
-	"net/http"
 )
 
-// GetTaskById godoc
+// GetTaskByID godoc
 // @Summary Retrieves task based on given ID
 // @Description get Task by ID
 // @Produce json
@@ -18,11 +19,11 @@ import (
 // @Success 200 {object} tasks.Task
 // @Router /api/tasks/{id} [get]
 // @Security Authorization Token
-func GetTaskById(c *gin.Context) {
+func GetTaskByID(c *gin.Context) {
 	s := persistence.GetTaskRepository()
 	id := c.Param("id")
 	if task, err := s.Get(id); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("task not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("task not found"))
 		log.Println(err)
 	} else {
 		c.JSON(http.StatusOK, task)
@@ -44,36 +45,38 @@ func GetTasks(c *gin.Context) {
 	var q models.Task
 	_ = c.Bind(&q)
 	if tasks, err := s.Query(&q); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("tasks not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("tasks not found"))
 		log.Println(err)
 	} else {
 		c.JSON(http.StatusOK, tasks)
 	}
 }
 
+// CreateTask ...
 func CreateTask(c *gin.Context) {
 	s := persistence.GetTaskRepository()
 	var taskInput models.Task
 	_ = c.BindJSON(&taskInput)
 	if err := s.Add(&taskInput); err != nil {
-		http_err.NewError(c, http.StatusBadRequest, err)
+		httperror.NewError(c, http.StatusBadRequest, err)
 		log.Println(err)
 	} else {
 		c.JSON(http.StatusCreated, taskInput)
 	}
 }
 
+// UpdateTask ...
 func UpdateTask(c *gin.Context) {
 	s := persistence.GetTaskRepository()
 	id := c.Params.ByName("id")
 	var taskInput models.Task
 	_ = c.BindJSON(&taskInput)
 	if _, err := s.Get(id); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("task not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("task not found"))
 		log.Println(err)
 	} else {
 		if err := s.Update(&taskInput); err != nil {
-			http_err.NewError(c, http.StatusNotFound, err)
+			httperror.NewError(c, http.StatusNotFound, err)
 			log.Println(err)
 		} else {
 			c.JSON(http.StatusOK, taskInput)
@@ -81,17 +84,18 @@ func UpdateTask(c *gin.Context) {
 	}
 }
 
+// DeleteTask ...
 func DeleteTask(c *gin.Context) {
 	s := persistence.GetTaskRepository()
 	id := c.Params.ByName("id")
 	var taskInput models.Task
 	_ = c.BindJSON(&taskInput)
 	if task, err := s.Get(id); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("task not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("task not found"))
 		log.Println(err)
 	} else {
 		if err := s.Delete(task); err != nil {
-			http_err.NewError(c, http.StatusNotFound, err)
+			httperror.NewError(c, http.StatusNotFound, err)
 			log.Println(err)
 		} else {
 			c.JSON(http.StatusNoContent, "")

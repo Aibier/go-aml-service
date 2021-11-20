@@ -2,11 +2,12 @@ package test
 
 import (
 	"fmt"
+	"testing"
+
 	"github.com/Aibier/go-aml-service/internal/pkg/config"
 	"github.com/Aibier/go-aml-service/internal/pkg/db"
 	models "github.com/Aibier/go-aml-service/internal/pkg/models/users"
 	"github.com/Aibier/go-aml-service/internal/pkg/persistence"
-	"testing"
 )
 
 var userTest models.User
@@ -40,7 +41,7 @@ func TestGetAllUsers(t *testing.T) {
 	}
 }
 
-func TestGetUserById(t *testing.T) {
+func TestGetUserByID(t *testing.T) {
 	db.SetupDB()
 	db.SetupDB()
 	s := persistence.GetUserRepository()
