@@ -14,6 +14,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// Setup ..
 func Setup() *gin.Engine {
 	app := gin.New()
 
@@ -49,12 +50,12 @@ func Setup() *gin.Engine {
 	// ================== User Routes
 
 	app.GET("/api/users", middlewares.AuthRequired(), controllers.GetUsers)
-	app.GET("/api/users/:id", middlewares.AuthRequired(), controllers.GetUserById)
+	app.GET("/api/users/:id", middlewares.AuthRequired(), controllers.GetUserByID)
 	app.POST("/api/users", middlewares.AuthRequired(), controllers.CreateUser)
 	app.PUT("/api/users/:id", middlewares.AuthRequired(), controllers.UpdateUser)
 	app.DELETE("/api/users/:id", middlewares.AuthRequired(), controllers.DeleteUser)
 	// ================== Tasks Routes
-	app.GET("/api/tasks/:id", middlewares.AuthRequired(), controllers.GetTaskById)
+	app.GET("/api/tasks/:id", middlewares.AuthRequired(), controllers.GetTaskByID)
 	app.GET("/api/tasks", middlewares.AuthRequired(), controllers.GetTasks)
 	app.POST("/api/tasks", middlewares.AuthRequired(), controllers.CreateTask)
 	app.PUT("/api/tasks/:id", middlewares.AuthRequired(), controllers.UpdateTask)

@@ -13,6 +13,7 @@ import (
 	"strings"
 )
 
+// UserInput ...
 type UserInput struct {
 	Username  string `json:"username" binding:"required"`
 	Lastname  string `json:"lastname"`
@@ -21,7 +22,7 @@ type UserInput struct {
 	Role      string `json:"role"`
 }
 
-// GetUserById godoc
+// GetUserByID godoc
 // @Summary Retrieves user based on given ID
 // @Description get User by ID
 // @Produce json
@@ -29,7 +30,7 @@ type UserInput struct {
 // @Success 200 {object} users.User
 // @Router /api/users/{id} [get]
 // @Security Authorization Token
-func GetUserById(c *gin.Context) {
+func GetUserByID(c *gin.Context) {
 	s := persistence.GetUserRepository()
 	id := c.Param("id")
 	if user, err := s.Get(id); err != nil {
@@ -62,6 +63,7 @@ func GetUsers(c *gin.Context) {
 	}
 }
 
+// CreateUser ...
 func CreateUser(c *gin.Context) {
 	s := persistence.GetUserRepository()
 	var userInput UserInput
@@ -94,6 +96,7 @@ func CreateUser(c *gin.Context) {
 	}
 }
 
+// UpdateUser ...
 func UpdateUser(c *gin.Context) {
 	s := persistence.GetUserRepository()
 	id := c.Params.ByName("id")
@@ -121,6 +124,7 @@ func UpdateUser(c *gin.Context) {
 	}
 }
 
+// DeleteUser ...
 func DeleteUser(c *gin.Context) {
 	s := persistence.GetUserRepository()
 	id := c.Params.ByName("id")

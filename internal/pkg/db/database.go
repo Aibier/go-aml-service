@@ -1,23 +1,26 @@
 package db
 
 import (
-	_ "database/sql"
-	"github.com/Aibier/go-aml-service/internal/pkg/config"
-	"github.com/Aibier/go-aml-service/internal/pkg/models/tasks"
-	"github.com/Aibier/go-aml-service/internal/pkg/models/users"
+
 	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"time"
+
+	"github.com/Aibier/go-aml-service/internal/pkg/config"
+	"github.com/Aibier/go-aml-service/internal/pkg/models/tasks"
+	"github.com/Aibier/go-aml-service/internal/pkg/models/users"
 )
 
+// DB ...
 var (
 	DB  *gorm.DB
 	err error
 )
 
+// Database ..
 type Database struct {
 	*gorm.DB
 }
@@ -84,6 +87,7 @@ func migration() {
 	}
 }
 
+// GetDB ...
 func GetDB() *gorm.DB {
 	return DB
 }

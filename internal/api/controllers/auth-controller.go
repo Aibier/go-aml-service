@@ -10,11 +10,13 @@ import (
 	"net/http"
 )
 
+// LoginInput ...
 type LoginInput struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
 
+// Login ...
 func Login(c *gin.Context) {
 	var loginInput LoginInput
 	err := c.BindJSON(&loginInput)

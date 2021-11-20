@@ -10,7 +10,7 @@ import (
 	"net/http"
 )
 
-// GetTaskById godoc
+// GetTaskByID godoc
 // @Summary Retrieves task based on given ID
 // @Description get Task by ID
 // @Produce json
@@ -18,7 +18,7 @@ import (
 // @Success 200 {object} tasks.Task
 // @Router /api/tasks/{id} [get]
 // @Security Authorization Token
-func GetTaskById(c *gin.Context) {
+func GetTaskByID(c *gin.Context) {
 	s := persistence.GetTaskRepository()
 	id := c.Param("id")
 	if task, err := s.Get(id); err != nil {
@@ -51,6 +51,7 @@ func GetTasks(c *gin.Context) {
 	}
 }
 
+// CreateTask ...
 func CreateTask(c *gin.Context) {
 	s := persistence.GetTaskRepository()
 	var taskInput models.Task
@@ -63,6 +64,7 @@ func CreateTask(c *gin.Context) {
 	}
 }
 
+// UpdateTask ...
 func UpdateTask(c *gin.Context) {
 	s := persistence.GetTaskRepository()
 	id := c.Params.ByName("id")
@@ -81,6 +83,7 @@ func UpdateTask(c *gin.Context) {
 	}
 }
 
+// DeleteTask ...
 func DeleteTask(c *gin.Context) {
 	s := persistence.GetTaskRepository()
 	id := c.Params.ByName("id")

@@ -40,7 +40,7 @@ func TestGetAllUsers(t *testing.T) {
 	}
 }
 
-func TestGetUserById(t *testing.T) {
+func TestGetUserByID(t *testing.T) {
 	db.SetupDB()
 	db.SetupDB()
 	s := persistence.GetUserRepository()

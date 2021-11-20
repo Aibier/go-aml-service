@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// Model provides based for all models
 type Model struct {
 	UUID      uuid.UUID `gorm:"column:uuid;not null;" json:"uuid" form:"uuid"`
 	ID        uint64    `gorm:"column:id;primary_key;auto_increment;" json:"id"`
