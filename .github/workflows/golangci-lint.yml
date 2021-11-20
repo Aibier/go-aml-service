@@ -25,7 +25,6 @@ jobs:
           go get golang.org/x/tools/cmd/goimports
           go get github.com/go-critic/go-critic/cmd/gocritic
           go get golang.org/x/lint/golint
-          go get -u golang.org/x/tools/cmd/vet
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       - uses: pre-commit/action@v2.0.0
