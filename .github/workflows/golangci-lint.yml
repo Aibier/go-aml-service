@@ -4,7 +4,6 @@ on:
     tags:
       - v*
     branches:
-      - master
       - main
   pull_request:
 permissions:
@@ -12,7 +11,7 @@ permissions:
   # Optional: allow read access to pull request. Use with `only-new-issues` option.
   pull-requests: read
 jobs:
-  lint-test-build:
+  go-lint-test:
     runs-on: ubuntu-latest
     steps:
       - name: Install Go
