@@ -9,6 +9,7 @@ import (
 	"github.com/Aibier/go-aml-service/internal/api/controllers"
 	"github.com/Aibier/go-aml-service/internal/api/middlewares"
 	"github.com/gin-gonic/gin"
+
 	log "github.com/sirupsen/logrus"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
