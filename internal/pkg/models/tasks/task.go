@@ -1,10 +1,12 @@
 package tasks
 
 import (
+	"time"
+
+	"gorm.io/gorm"
+
 	"github.com/Aibier/go-aml-service/internal/pkg/models"
 	"github.com/Aibier/go-aml-service/internal/pkg/models/users"
-	"gorm.io/gorm"
-	"time"
 )
 
 // Task ...

@@ -1,14 +1,15 @@
 package api
 
 import (
+	"net/http"
+	"os"
+	"time"
+
 	"github.com/Aibier/go-aml-service/internal/api/router"
 	"github.com/Aibier/go-aml-service/internal/pkg/config"
 	"github.com/Aibier/go-aml-service/internal/pkg/db"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
-	"net/http"
-	"os"
-	"time"
 )
 
 func setConfiguration(configPath string) {

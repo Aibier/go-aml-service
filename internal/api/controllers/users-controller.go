@@ -3,14 +3,15 @@ package controllers
 import (
 	"errors"
 	"fmt"
+	"net/http"
+	"strings"
+
 	models "github.com/Aibier/go-aml-service/internal/pkg/models/users"
 	"github.com/Aibier/go-aml-service/internal/pkg/persistence"
 	"github.com/Aibier/go-aml-service/pkg/crypto"
 	"github.com/Aibier/go-aml-service/pkg/http-err"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
-	"net/http"
-	"strings"
 )
 
 // UserInput ...

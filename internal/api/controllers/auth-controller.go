@@ -2,12 +2,13 @@ package controllers
 
 import (
 	"errors"
+	"net/http"
+
 	"github.com/Aibier/go-aml-service/internal/pkg/persistence"
 	"github.com/Aibier/go-aml-service/pkg/crypto"
 	"github.com/Aibier/go-aml-service/pkg/http-err"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
-	"net/http"
 )
 
 // LoginInput ...

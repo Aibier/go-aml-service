@@ -1,9 +1,11 @@
 package users
 
 import (
-	"github.com/Aibier/go-aml-service/internal/pkg/models"
-	"gorm.io/gorm"
 	"time"
+
+	"gorm.io/gorm"
+
+	"github.com/Aibier/go-aml-service/internal/pkg/models"
 )
 
 // UserRole ...

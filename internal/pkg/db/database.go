@@ -1,12 +1,13 @@
 package db
 
 import (
+	"time"
+
 	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"time"
 
 	"github.com/Aibier/go-aml-service/internal/pkg/config"
 	"github.com/Aibier/go-aml-service/internal/pkg/models/tasks"

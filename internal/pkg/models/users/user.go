@@ -1,10 +1,11 @@
 package users
 
 import (
+	"time"
+
 	"github.com/Aibier/go-aml-service/internal/pkg/models"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
-	"time"
 )
 
 // User ..

@@ -2,11 +2,13 @@ package crypto
 
 import (
 	"fmt"
-	config2 "github.com/Aibier/go-aml-service/internal/pkg/config"
-	"github.com/dgrijalva/jwt-go"
-	log "github.com/sirupsen/logrus"
-	"golang.org/x/crypto/bcrypt"
 	"time"
+
+	"github.com/dgrijalva/jwt-go"
+	"golang.org/x/crypto/bcrypt"
+
+	config2 "github.com/Aibier/go-aml-service/internal/pkg/config"
+	log "github.com/sirupsen/logrus"
 )
 
 // HashAndSalt ...

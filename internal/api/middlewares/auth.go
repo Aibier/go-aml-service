@@ -1,9 +1,10 @@
 package middlewares
 
 import (
+	"net/http"
+
 	"github.com/Aibier/go-aml-service/pkg/crypto"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 // AuthRequired ...

@@ -1,9 +1,10 @@
 package persistence
 
 import (
+	"strconv"
+
 	"github.com/Aibier/go-aml-service/internal/pkg/db"
 	models "github.com/Aibier/go-aml-service/internal/pkg/models/tasks"
-	"strconv"
 )
 
 // TaskRepository ...
