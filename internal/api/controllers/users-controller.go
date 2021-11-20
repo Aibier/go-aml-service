@@ -34,7 +34,7 @@ func GetUserByID(c *gin.Context) {
 	s := persistence.GetUserRepository()
 	id := c.Param("id")
 	if user, err := s.Get(id); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("user not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("user not found"))
 		log.Println(err)
 	} else {
 		c.JSON(http.StatusOK, user)
@@ -56,7 +56,7 @@ func GetUsers(c *gin.Context) {
 	var q models.User
 	_ = c.Bind(&q)
 	if users, err := s.Query(&q); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("users not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("users not found"))
 		log.Println(err)
 	} else {
 		c.JSON(http.StatusOK, users)
@@ -89,7 +89,7 @@ func CreateUser(c *gin.Context) {
 		Role:      models.UserRole{RoleName: userInput.Role},
 	}
 	if err := s.Add(&user); err != nil {
-		http_err.NewError(c, http.StatusBadRequest, err)
+		httperror.NewError(c, http.StatusBadRequest, err)
 		log.Println(err)
 	} else {
 		c.JSON(http.StatusCreated, user)
@@ -103,11 +103,11 @@ func UpdateUser(c *gin.Context) {
 	var userInput UserInput
 	err := c.BindJSON(&userInput)
 	if err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("user not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("user not found"))
 		log.Println(err)
 	}
 	if user, err := s.Get(id); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("user not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("user not found"))
 		log.Println(err)
 	} else {
 		user.Username = userInput.Username
@@ -116,7 +116,7 @@ func UpdateUser(c *gin.Context) {
 		user.Hash = crypto.HashAndSalt([]byte(userInput.Password))
 		user.Role = models.UserRole{RoleName: userInput.Role}
 		if err := s.Update(user); err != nil {
-			http_err.NewError(c, http.StatusNotFound, err)
+			httperror.NewError(c, http.StatusNotFound, err)
 			log.Println(err)
 		} else {
 			c.JSON(http.StatusOK, user)
@@ -131,11 +131,11 @@ func DeleteUser(c *gin.Context) {
 	var userInput UserInput
 	_ = c.BindJSON(&userInput)
 	if user, err := s.Get(id); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("user not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("user not found"))
 		log.Println(err)
 	} else {
 		if err := s.Delete(user); err != nil {
-			http_err.NewError(c, http.StatusNotFound, err)
+			httperror.NewError(c, http.StatusNotFound, err)
 			log.Println(err)
 		} else {
 			c.JSON(http.StatusNoContent, "")

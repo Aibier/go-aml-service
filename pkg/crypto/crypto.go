@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+// HashAndSalt ...
 func HashAndSalt(pwd []byte) string {
 	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
 	if err != nil {
@@ -17,6 +18,7 @@ func HashAndSalt(pwd []byte) string {
 	return string(hash)
 }
 
+// ComparePasswords ...
 func ComparePasswords(hashedPwd string, plainPwd []byte) bool {
 	byteHash := []byte(hashedPwd)
 	err := bcrypt.CompareHashAndPassword(byteHash, plainPwd)
@@ -27,6 +29,7 @@ func ComparePasswords(hashedPwd string, plainPwd []byte) bool {
 	return true
 }
 
+// CreateToken ...
 func CreateToken(username string) (string, error) {
 	config := config2.GetConfig()
 
@@ -44,6 +47,7 @@ func CreateToken(username string) (string, error) {
 	return token, nil
 }
 
+// ValidateToken ...
 func ValidateToken(tokenString string) bool {
 	config := config2.GetConfig()
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {

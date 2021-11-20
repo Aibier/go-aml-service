@@ -22,7 +22,7 @@ func GetTaskByID(c *gin.Context) {
 	s := persistence.GetTaskRepository()
 	id := c.Param("id")
 	if task, err := s.Get(id); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("task not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("task not found"))
 		log.Println(err)
 	} else {
 		c.JSON(http.StatusOK, task)
@@ -44,7 +44,7 @@ func GetTasks(c *gin.Context) {
 	var q models.Task
 	_ = c.Bind(&q)
 	if tasks, err := s.Query(&q); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("tasks not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("tasks not found"))
 		log.Println(err)
 	} else {
 		c.JSON(http.StatusOK, tasks)
@@ -57,7 +57,7 @@ func CreateTask(c *gin.Context) {
 	var taskInput models.Task
 	_ = c.BindJSON(&taskInput)
 	if err := s.Add(&taskInput); err != nil {
-		http_err.NewError(c, http.StatusBadRequest, err)
+		httperror.NewError(c, http.StatusBadRequest, err)
 		log.Println(err)
 	} else {
 		c.JSON(http.StatusCreated, taskInput)
@@ -71,11 +71,11 @@ func UpdateTask(c *gin.Context) {
 	var taskInput models.Task
 	_ = c.BindJSON(&taskInput)
 	if _, err := s.Get(id); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("task not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("task not found"))
 		log.Println(err)
 	} else {
 		if err := s.Update(&taskInput); err != nil {
-			http_err.NewError(c, http.StatusNotFound, err)
+			httperror.NewError(c, http.StatusNotFound, err)
 			log.Println(err)
 		} else {
 			c.JSON(http.StatusOK, taskInput)
@@ -90,11 +90,11 @@ func DeleteTask(c *gin.Context) {
 	var taskInput models.Task
 	_ = c.BindJSON(&taskInput)
 	if task, err := s.Get(id); err != nil {
-		http_err.NewError(c, http.StatusNotFound, errors.New("task not found"))
+		httperror.NewError(c, http.StatusNotFound, errors.New("task not found"))
 		log.Println(err)
 	} else {
 		if err := s.Delete(task); err != nil {
-			http_err.NewError(c, http.StatusNotFound, err)
+			httperror.NewError(c, http.StatusNotFound, err)
 			log.Println(err)
 		} else {
 			c.JSON(http.StatusNoContent, "")

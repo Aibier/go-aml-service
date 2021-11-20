@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// AuthRequired ...
 func AuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authorizationHeader := c.GetHeader("authorization")

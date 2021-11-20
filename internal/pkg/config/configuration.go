@@ -6,13 +6,16 @@ import (
 	"time"
 )
 
+// Config ...
 var Config *Configuration
 
+// Configuration ...
 type Configuration struct {
 	Server   ServerConfiguration
 	Database DatabaseConfiguration
 }
 
+// DatabaseConfiguration ...
 type DatabaseConfiguration struct {
 	Driver       string
 	Dbname       string
@@ -25,6 +28,7 @@ type DatabaseConfiguration struct {
 	MaxIdleConns int
 }
 
+// ServerConfiguration ...
 type ServerConfiguration struct {
 	Port             string
 	Secret           string
