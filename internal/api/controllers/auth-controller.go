@@ -4,9 +4,10 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/Aibier/go-aml-service/internal/util/crypto"
+	httperror "github.com/Aibier/go-aml-service/internal/util/http-err"
+
 	"github.com/Aibier/go-aml-service/internal/pkg/persistence"
-	"github.com/Aibier/go-aml-service/pkg/crypto"
-	httperror "github.com/Aibier/go-aml-service/pkg/http-err"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 )

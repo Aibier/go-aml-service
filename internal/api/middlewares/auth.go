@@ -3,7 +3,8 @@ package middlewares
 import (
 	"net/http"
 
-	"github.com/Aibier/go-aml-service/pkg/crypto"
+	"github.com/Aibier/go-aml-service/internal/util/crypto"
+
 	"github.com/gin-gonic/gin"
 )
 

@@ -7,7 +7,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
 
-	config2 "github.com/Aibier/go-aml-service/internal/pkg/config"
+	"github.com/Aibier/go-aml-service/internal/pkg/config"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -33,7 +33,7 @@ func ComparePasswords(hashedPwd string, plainPwd []byte) bool {
 
 // CreateToken ...
 func CreateToken(username string) (string, error) {
-	config := config2.GetConfig()
+	config := config.GetConfig()
 
 	var err error
 	//Creating Access Token
@@ -51,7 +51,7 @@ func CreateToken(username string) (string, error) {
 
 // ValidateToken ...
 func ValidateToken(tokenString string) bool {
-	config := config2.GetConfig()
+	config := config.GetConfig()
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("there was an error")
